@@ -1,3 +1,9 @@
+<?php
+session_start();
+if (!isset($_SESSION["username"])) {
+  header("location:login.php");
+} else{
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -548,3 +554,6 @@
 <script src="dist/js/demo.js"></script>
 </body>
 </html>
+<?php
+}
+?>

@@ -77,24 +77,46 @@
     </style>
 </head>
 <body>
+<?php
+    include "koneksi.php"; 
+      if(isset($_POST["submit"])){
+        session_start();
+        $_SESSION["username"]=$_POST["username"];
+        $_SESSION["password"]=$_POST["password"];
+
+        $username=$_SESSION["username"];
+        $password=$_SESSION["password"];
+        $login=mysqli_query($koneksi,"select * from admin where 
+        username='$username' AND
+        password='$password'");
+        $cek=mysqli_num_rows($login);
+
+        if ($cek==1) 
+        {
+          header('location:dashboard.php');
+        }
+        else
+        {
+          echo "<div class='alert alert-danger'> Anda bukan admin! </div>";
+        }
+      }
+    ?>
     <div class="container">
         <header>
             <img src="dist/img/consina.jpeg" alt="logo consina">
         </header>
         <main>
-            <section id="login">
                 <h2>Login</h2>
-                <form action="login.php" method="post">
-                    <label for="username">Username</label>
-                    <input type="text" id="username" name="username" required>
+                <form method="POST" action="">
+                    <label>Username</label>
+                    <input type="text" name="username">
 
-                    <label for="password">Password</label>
-                    <input type="password" id="password" name="password" required>
+                    <label>Password</label>
+                    <input type="password" name="password">
 
-                    <button type="submit">Login</button>
+                    <button type="submit" name="submit" value="submit">Login</button>
                 </form>
                 <p>Belum punya akun? <a href="register.php">Daftar disini</a></p>
-            </section>
         </main>
     </div>
 </body>

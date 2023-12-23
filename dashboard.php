@@ -9,7 +9,7 @@ if (!isset($_SESSION["username"])) {
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Update barang</title>
+  <title>Dashboard</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.7 -->
@@ -221,7 +221,7 @@ if (!isset($_SESSION["username"])) {
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu" data-widget="tree">
         <li class="header">MENU</li>
-        <li class="active"><a href="#"><i class="fa fa-home"></i> <span> Dashboard</span></a></li>
+        <li class="active"><a href="#"><i class="fa fa-link"></i> <span> Dashboard</span></a></li>
           <ul class="treeview-menu">
             <li class="active"><a href="index.html"><i class="fa fa-circle-o"></i> Dashboard</a></li>
           </ul>
@@ -260,76 +260,94 @@ if (!isset($_SESSION["username"])) {
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
-      <a
-  class="btn"
-  href="barang.php"
-  role="button">
-  <i class="fa fa-arrow-circle-left">  kembali</i></a>
+      <h1>
+        Dashboard
+      </h1>
     </section>
 
-<section class="content">
-<?php
-include "koneksi.php";
-if (isset($_POST["ok"])){
-    $id_barang=$_POST['id_barang'];
-    $nama_barang=$_POST['nama_barang']; 
-    $jumlah=$_POST['jumlah'];
-    $harga=$_POST['harga'];
-    $deskripsi=$_POST['deskripsi'];
-
-    $simpan=mysqli_query($koneksi,"update barang set
-     nama_barang='$nama_barang',
-     jumlah='$jumlah',
-     harga='$harga',
-     deskripsi='$deskripsi',
-     where id_barang='$id_barang'");
-
-     if ($simpan){
-        echo "<div class='alert alert-success'>Sukses menambah data baru</div>";
-     }else{
-        echo "<div class='alert alert-danger'>Gagal menambah data baru</div>";
-     }
-}
-?>
-<div class="container">
-      <div class="d-flex justify-content-left align-items-left" style="height: 100vh">
-        <div class="text-left">
-  <form method="POST" action="">
-
-  <?php
-         $tampil=mysqli_query($koneksi,"select * from barang where id_barang='$_GET[id]'");
-         foreach ($tampil as $row){
-         ?>
-
-  <div class="form-group">
-    <label>ID Barang</label>
-    <input value="<?php echo $row['id_barang']; ?>" type="text" class="form-control" name="id_barang" placeholder="Masukkan ID barang">
-  </div>
-
-  <form action="">
-  <div class="form-group">
-    <label>Nama Barang</label>
-    <input value="<?php echo $row['nama_barang']; ?>" type="text" class="form-control" name="nama_barang" placeholder="Masukkan nama barang">
-  </div>
-  <div class="form-group">
-    <label>Jumlah Barang</label>
-    <input value="<?php echo $row['jumlah']; ?>" type="text" class="form-control" name="jumlah" placeholder="Masukkan jumlah barang">
-  </div>
-  <div class="form-group">
-    <label>Harga Barang</label>
-    <input value="<?php echo $row['harga']; ?>" type="text" class="form-control" name="harga" placeholder="Masukkan harga barang">
-  </div>
-  <div class="form-group">
-    <label>Deskripsi Barang</label>
-    <input value="<?php echo $row['deskripsi']; ?>" type="text" class="form-control" name="deskripsi" placeholder="Masukkan deskripsi barang">
-  </div>
-  <button type="submit" name="ok" class="btn btn-primary">Simpan</button>
-  </form>
-  <?php }?>
-  </div>
+    <section class="content">
+      <div style="border: 1px solid #ddd; border-radius: 4px; padding: 20px; width: 1065px; margin: 20px; background-color: #fffefc; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+        <div style="display: flex; align-items: center;">
+          <img src="dist/img/camp.jpeg" alt="User Image" style="width: 250px; margin-right: 20px;">
+          <div style="text-align: center;">
+            <div style="font-family: cambria; font-size: 24px; font-weight: bold; margin-bottom: 10px;">Selamat Datang Di Consina Outdoor</div>
+            <div style="font-family: cambria; font-size: 16px; color: #333;">Kami menyediakan perlengkapan outdoor terbaik untuk menjadikan setiap petualanganmu di alam terbuka sebagai pengalaman yang tak terlupakan. Dengan koleksi kami yang luas, Anda akan menemukan tenda, peralatan hiking, pakaian, dan aksesori yang andal, stylish, serta tahan lama, yang akan membantu Anda menjelajahi alam bebas dengan penuh percaya diri dan kenyamanan.</div>
+          </div>
+          
+        </div>
       </div>
-    </div>
+      <div style="text-align: center;">
+        <div style="font-size: 20px; font-weight: bold; margin-top: 20px;">Produk Kami</div>
+      </div>
+      <div style="display: flex; justify-content: space-between;">
+        <!-- Card 1 -->
+        <div style="border: 1px solid #ddd; border-radius: 4px; padding: 20px; width: 30%; margin-top: 20px; text-align: center; position: relative; background-color: #fffefc; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+          <h4 style="font-weight: bold;">Tenda</h4>
+          <img src="dist/img/kap2.png" alt="Produk 1" style="width: 50%; height: auto; display: block; margin: 0 auto;">
+          <p>Tenda kami dirancang untuk menangani berbagai kondisi cuaca dan medan. Dibuat dari bahan tahan air yang kuat dan struktur kokoh, tenda ini akan memberikan perlindungan yang andal saat hujan atau angin kencang.</p>
+          <p>Tersedia mulai dari kapasitas 2 orang hingga 8 orang.</p>
+        <a href="#" class="small-box-footer">Pesan sekarang <i class="fa fa-arrow-circle-right"></i></a>
+        </div>
+        
+        <!-- Card 2 -->
+        <div style="border: 1px solid #ddd; border-radius: 4px; padding: 20px; width: 30%; margin-top: 20px; text-align: center; position: relative; background-color: #fffefc; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+          <h4 style="font-weight: bold;">Flysheet</h4>
+          <br>
+          <img src="dist/img/fly.png" alt="Produk 1" style="width: 75%; height: auto; display: block; margin: 0 auto;">
+          <p>Terbuat dari bahan yang tahan air atau dilapisi dengan lapisan tahan air. Ini menjaga tenda Anda tetap kering bahkan dalam hujan deras.</p>
+          <p>Ukuran menyesuaikan kapasitas tenda.</p>
+          <br>
+          <br>
+          <a href="#" class="small-box-footer">Pesan sekarang <i class="fa fa-arrow-circle-right"></i></a>
+        </div>
+    
+        <!-- Card 3 -->
+        <div style="border: 1px solid #ddd; border-radius: 4px; padding: 20px; width: 30%; margin-top: 20px; text-align: center; position: relative; background-color: #fffefc; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+          <h4 style="font-weight: bold;">Senter</h4>
+          <br>
+          <img src="dist/img/senter.png" alt="Produk 1" style="width: 50%; height: auto; display: block; margin: 0 auto;">
+          <br>
+          <p>Dirancang memiliki fitur tahan air dan tahan guncangan, sehingga mereka dapat digunakan dalam berbagai kondisi cuaca dan aktivitas outdoor yang kasar. Ini menjadikannya sangat andal saat hujan atau dalam situasi darurat.</p>
+          <p>Free 2 baterai setiap peminjaman.</p>
+          <br>
+          <a href="#" class="small-box-footer">Pesan sekarang <i class="fa fa-arrow-circle-right"></i></a>
+        </div>
+      </div>
+      <div style="display: flex; justify-content: space-between;">
+        <!-- Card 1 -->
+        <div style="border: 1px solid #ddd; border-radius: 4px; padding: 20px; width: 30%; margin-top: 20px; text-align: center; position: relative; background-color: #fffefc; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+          <h4 style="font-weight: bold;">Carrier</h4>
+          <img src="dist/img/carrier.png" alt="Produk 1" style="width: 50%; height: auto; display: block; margin: 0 auto;">
+          <p>Didesain ergonomis, ringan, dan stylish, carrier ini hadir dengan kapasitas besar dan kompartemen pintar. Tahan air, tahan aus, serta dilengkapi fitur keamanan, membuatnya ideal untuk menjelajahi alam terbuka. </p>
+          <p>Tersedia mulai dari kapasitas 20L sampai 60L.</p>
+          <a href="#" class="small-box-footer">Pesan sekarang <i class="fa fa-arrow-circle-right"></i></a>
+        </div>
+        
+        <!-- Card 2 -->
+        <div style="border: 1px solid #ddd; border-radius: 4px; padding: 20px; width: 30%; margin-top: 20px; text-align: center; position: relative; background-color: #fffefc; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+          <h4 style="font-weight: bold;">Nesting</h4>
+          <br>
+          <img src="dist/img/nesting.png" alt="Produk 1" style="width: 50%; height: auto; display: block; margin: 0 auto;">
+          <p>Di desain dengan inovatif yang memungkinkan setiap bagian saling bersarang atau dikompak, produk ini memudahkan penyimpanan dan penggunaan yang efisien. Dari perabotan hingga perkakas dapur, nesting memberikan kemudahan tanpa batas untuk ruang yang lebih rapi dan terorganisir.</p>
+          <a href="#" class="small-box-footer">Pesan sekarang <i class="fa fa-arrow-circle-right"></i></a>
+        </div>
+    
+        <!-- Card 3 -->
+        <div style="border: 1px solid #ddd; border-radius: 4px; padding: 20px; width: 30%; margin-top: 20px; text-align: center; position: relative; background-color: #fffefc; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+          <h4 style="font-weight: bold;">Kursi dan Meja</h4>
+          <img src="dist/img/kursi.png" alt="Produk 1" style="width: 75%; height: auto; display: block; margin: 0 auto; margin-top: -30px; position: relative; z-index: 1;">
+          <p style="margin-top: -20px;">Dengan desain ringkas yang dapat dilipat, mudah dibawa, dan cepat disiapkan, produk ini menghadirkan kenyamanan sejati di setiap perjalanan. Kursi yang kokoh memberikan dukungan sempurna, sementara meja portabel memberikan tempat ideal untuk bersantap atau menata perlengkapan.</p>
+          <a href="#" class="small-box-footer">Pesan sekarang <i class="fa fa-arrow-circle-right"></i></a>
+        </div>
+        
+        
+      </div>
     </section>
+    
+    
+    
+    
+    
     
 
       </div> 
@@ -339,12 +357,12 @@ if (isset($_POST["ok"])){
   </div>
   <!-- /.content-wrapper -->
   <footer class="main-footer">
-    <div class="pull-right hidden-xs">
-      <b>Version</b> 2.4.18
+    <b>Version</b> 2.4.18
     </div>
     <strong>Copyright &copy; 2014-2019 <a href="https://adminlte.io">AdminLTE</a>.</strong> All rights
     reserved.
   </footer>
+    <div class="pull-right hidden-xs">
 
   <!-- Control Sidebar -->
   <aside class="control-sidebar control-sidebar-dark" style="display: none;">
