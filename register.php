@@ -1,9 +1,63 @@
+<?php
+session_start();
+include "koneksi.php";
+
+if (isset($_POST["submit"])) {
+    $_SESSION["username"] = $_POST["username"];
+    $_SESSION["password"] = $_POST["password"];
+    $_SESSION["confirm_password"] = $_POST["confirm_password"];
+    $_SESSION["email"] = $_POST["email"];
+
+    // Pembersihan dan trim input
+    $username = $_SESSION["username"];
+    $password = trim($_SESSION["password"]);
+    $confirm_password = trim($_SESSION["confirm_password"]);
+    $email = $_SESSION["email"];
+
+    // Validasi input di sisi server
+    if (empty($username) || empty($password) || empty($confirm_password) || empty($email)) {
+        echo "<div class='alert alert-danger'>Semua field harus diisi!</div>";
+    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        echo "<div class='alert alert-danger'>Format email tidak valid!</div>";
+    } elseif ($password !== $confirm_password) {
+        echo "<div class='alert alert-danger'>Password dan Confirm Password tidak cocok!</div>";
+    } else {
+        // Check if username or email already exists
+        $stmt_check = $koneksi->prepare("SELECT * FROM user WHERE username=? OR email=?");
+        $stmt_check->bind_param("ss", $username, $email);
+        $stmt_check->execute();
+        $result_check = $stmt_check->get_result();
+        $cek = $result_check->num_rows;
+        $stmt_check->close();
+
+        if ($cek > 0) {
+            echo "<div class='alert alert-danger'>Username atau Email Telah Digunakan!</div>";
+        } else {
+            // Insert data ke database
+            $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+            $insert_stmt = $koneksi->prepare("INSERT INTO user (username, password, email) VALUES (?, ?, ?)");
+            $insert_stmt->bind_param("sss", $username, $hashed_password, $email);
+
+            if ($insert_stmt->execute()) {
+                header('location:login.php');
+            } else {
+                echo "<div class='alert alert-danger'>Gagal menyimpan data ke database.</div>";
+            }
+
+            $insert_stmt->close();
+        }
+    }
+}
+?>
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nature Register</title>
+    <title>Consina Register</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -82,22 +136,23 @@
             <img src="dist/img/consina.jpeg" alt="logo consina">
         </header>
         <main>
-            <section id="register">
-                <h2>Register</h2>
-                <form action="register.php" method="post">
-                    <label for="regUsername">Username</label>
-                    <input type="text" id="regUsername" name="regUsername" required>
+            <h2>Register</h2>
+            <form method="POST" action="">
+                <label>Username</label>
 
-                    <label for="email">Email</label>
-                    <input type="email" id="email" name="email" required>
+                <input type="text" name="username">
 
-                    <label for="regPassword">Password</label>
-                    <input type="password" id="regPassword" name="regPassword" required>
+                <label>Password</label>
+                <input type="password" name="password">
 
-                    <button type="submit">Register</button>
-                </form>
-                <p>Sudah punya akun? <a href="login.php">Login disini</a></p>
-            </section>
+                <label>Confirm Password</label>
+                <input type="password" name="confirm_password">
+                <label>Email</label>
+                <input type="email" name="email">
+
+                <button type="submit" name="submit" value="submit">Register</button>
+            </form>
+            <p>Sudah punya akun? <a href="login.php">Login disini</a></p>
         </main>
     </div>
 </body>

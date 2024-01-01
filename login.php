@@ -1,3 +1,38 @@
+<?php
+session_start();
+include "koneksi.php"; 
+
+if (isset($_POST["submit"])) {
+    $username = $_POST["username"];
+    $password = $_POST["password"];
+
+    $login = mysqli_prepare($koneksi, "SELECT * FROM user WHERE username=?");
+    mysqli_stmt_bind_param($login, "s", $username);
+    mysqli_stmt_execute($login);
+
+    $result = mysqli_stmt_get_result($login);
+
+    if ($result && $user = mysqli_fetch_assoc($result)) {
+        // Verifikasi password
+        if (password_verify($password, $user['password'])) {
+            // Login berhasil
+            $_SESSION["username"] = $username;
+            header('location:dashboard.php');
+            exit();
+        } else {
+            // Password salah
+            echo "<div class='alert'>Username atau Password salah!</div>";
+        }
+    } else {
+        // Username tidak ditemukan
+        echo "<div class='alert'>Username atau Password salah!</div>";
+    }
+
+    mysqli_stmt_close($login);
+}
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,9 +52,9 @@
         }
 
         .container {
-            text-align: center; /* Pusatkan kontennya secara horizontal */
+            text-align: center;
             background-color: #fff;
-            padding: 20px 100px; /* Mengurangi tinggi padding atas dan bawah */
+            padding: 20px 100px;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
@@ -30,24 +65,24 @@
 
         main {
             display: flex;
-            flex-direction: column; /* Mengatur elemen di dalam main menjadi kolom */
-            align-items: center; /* Pusatkan kontennya secara vertikal */
+            flex-direction: column;
+            align-items: center;
         }
 
         img {
-            max-width: 50%; /* Pastikan gambar tidak melebihi lebar container */
-            margin-bottom: -20px; /* Tambahkan margin bawah untuk memberi jarak antar elemen */
+            max-width: 50%;
+            margin-bottom: -20px;
         }
 
         section {
             width: 100%;
-            margin-bottom: 20px; /* Tambahkan margin bawah untuk memberi jarak antar elemen */
+            margin-bottom: 20px;
         }
 
         form {
             width: 100%;
-            max-width: 300px; /* Atur lebar maksimum form */
-            margin: auto; /* Pusatkan form */
+            max-width: 300px;
+            margin: auto;
         }
 
         label {
@@ -56,7 +91,7 @@
         }
 
         input {
-            width: 100%; /* Ubah lebar input menjadi 100% */
+            width: 100%;
             padding: 8px;
             margin-bottom: 15px;
         }
@@ -68,55 +103,32 @@
             border: none;
             border-radius: 4px;
             cursor: pointer;
-            margin-bottom: 10px; /* Mengurangi margin bawah pada tombol */
+            margin-bottom: 10px;
         }
 
         button:hover {
             background-color: #45a049;
         }
+
     </style>
 </head>
 <body>
-<?php
-    include "koneksi.php"; 
-      if(isset($_POST["submit"])){
-        session_start();
-        $_SESSION["username"]=$_POST["username"];
-        $_SESSION["password"]=$_POST["password"];
-
-        $username=$_SESSION["username"];
-        $password=$_SESSION["password"];
-        $login=mysqli_query($koneksi,"select * from admin where 
-        username='$username' AND
-        password='$password'");
-        $cek=mysqli_num_rows($login);
-
-        if ($cek==1) 
-        {
-          header('location:dashboard.php');
-        }
-        else
-        {
-          echo "<div class='alert alert-danger'> Anda bukan admin! </div>";
-        }
-      }
-    ?>
     <div class="container">
         <header>
             <img src="dist/img/consina.jpeg" alt="logo consina">
         </header>
         <main>
-                <h2>Login</h2>
-                <form method="POST" action="">
-                    <label>Username</label>
-                    <input type="text" name="username">
+            <h2>Login</h2>
+            <form method="POST" action="">
+                <label>Username</label>
+                <input type="text" name="username">
 
-                    <label>Password</label>
-                    <input type="password" name="password">
+                <label>Password</label>
+                <input type="password" name="password">
 
-                    <button type="submit" name="submit" value="submit">Login</button>
-                </form>
-                <p>Belum punya akun? <a href="register.php">Daftar disini</a></p>
+                <button type="submit" name="submit" value="submit">Login</button>
+            </form>
+            <p>Belum punya akun? <a href="register.php">Daftar disini</a></p>
         </main>
     </div>
 </body>
