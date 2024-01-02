@@ -1,15 +1,9 @@
-<?php
-session_start();
-if (!isset($_SESSION["username"])) {
-  header("location:login.php");
-} else{
-?>
 <!DOCTYPE html>
 <html>
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Data Barang</title>
+  <title>AdminLTE 2 | Dashboard</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.7 -->
@@ -221,7 +215,7 @@ if (!isset($_SESSION["username"])) {
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu" data-widget="tree">
         <li class="header">MENU</li>
-        <li class="active"><a href="index.html"><i class="fa fa-home"></i> <span> Dashboard</span></a></li>
+        <li class="active"><a href="#"><i class="fa fa-home"></i> <span> Dashboard</span></a></li>
           <ul class="treeview-menu">
             <li class="active"><a href="index.html"><i class="fa fa-circle-o"></i> Dashboard</a></li>
           </ul>
@@ -261,43 +255,40 @@ if (!isset($_SESSION["username"])) {
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Data Peminjaman
+        Dashboard
       </h1>
     </section>
 
-<section class="content">
+    <section class="content">
 <table class="table table-striped">
   <thead style="background-color: #D3D3D3;">
     <tr>
-    <th scope="col">ID Peminjaman</th>
-      <th scope="col">Nama User</th>
-      <th scope="col">Nama Admin</th>
-      <th scope="col">ID Barang</th>
-      <th scope="col">Jumlah Barang</th>
-      <th scope="col">Tanggal Pinjam</th>
-      <th scope="col">Tanggal Kembali</th>
-      <th scope="col">Status</th>
-      <th scope="col">Aksi</th>
-    </tr>
-    </thead>
-  <?php
+    <th>Id Peminjaman</th>
+              <th>ID Barang</th>
+              <th>Jumlah Barang</th>
+              <th>Tanggal Pinjam</th>
+              <th>Tanggal Kembali</th>
+              <th>Status</th>
+              <th>Terlambat</th>
+              <th>Denda</th>
+              <th>Aksi</th>
+            </tr>
+            <?php
           include "koneksi.php";
-          $tampil=mysqli_query($koneksi, "select * from peminjaman");
+          $tampil=mysqli_query($koneksi, "select * from pengembalian");
           foreach ($tampil as $row) {
            ?>
-  <tbody>
-  <tr>    
+            <tr>
               <td><?php echo "$row[id_peminjaman]"; ?></td>
-              <td><?php echo "$row[nama_user]"; ?></td>
-              <td><?php echo "$row[nama_admin]"; ?></td>
               <td><?php echo "$row[id_barang]"; ?></td>
               <td><?php echo "$row[jumlah_barang]"; ?></td>
               <td><?php echo "$row[tanggal_pinjam]"; ?></td>
               <td><?php echo "$row[tanggal_kembali]"; ?></td>
               <td><?php echo "$row[status]"; ?></td>
+              <td><?php echo "$row[terlambat]"; ?></td>
+              <td><?php echo "$row[denda]"; ?></td>
               <td><?php echo "
-                <a href='deletepeminjaman.php?id=$row[id_peminjaman]' class='btn btn-danger'><i class='fa fa-trash'></i></a>
-                <a href='kembalikan.php?id=$row[id_peminjaman]' class='btn btn-success'>Kembalikan   <i class='fa fa-arrow-circle-right'></i></a>
+                <a href='deletepengembalian.php?id=$row[id_peminjaman]' class='btn btn-danger'><i class='fa fa-trash'></i></a>
                 "; ?>
             </td>
           </tr>
@@ -305,9 +296,7 @@ if (!isset($_SESSION["username"])) {
   </tbody>
   <?php } ?>
 </table>
-<center>
-<a class="btn btn-primary" href="tambahpeminjaman.php"> + Tambah data barang</a>
-</center>
+
 </section>
     
 
@@ -560,6 +549,3 @@ if (!isset($_SESSION["username"])) {
 <script src="dist/js/demo.js"></script>
 </body>
 </html>
-<?php
-}
-?>

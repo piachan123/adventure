@@ -271,7 +271,7 @@ if (!isset($_SESSION["username"])) {
 <?php
 include "koneksi.php";
 if (isset($_POST["ok"])){
-    $id_peminjaman=$_POST['id_peminjaman'];
+   
     $nama_user=$_POST['nama_user']; 
     $nama_admin=$_POST['nama_admin'];
     $id_barang=$_POST['id_barang'];
@@ -281,7 +281,7 @@ if (isset($_POST["ok"])){
     $status=$_POST['status'];
 
     $simpan=mysqli_query($koneksi,"insert into peminjaman set 
-     id_peminjaman='$id_peminjaman',
+    
      nama_user='$nama_user',
      nama_admin='$nama_admin',
      id_barang='$id_barang',
@@ -301,10 +301,8 @@ if (isset($_POST["ok"])){
       <div class="d-flex justify-content-left align-items-left" style="height: 100vh">
         <div class="text-left">
   <form method="POST" action="" style="width: 1075px;">
-  <div class="form-group">
-    <label>ID Peminjaman</label>
-    <input type="text" class="form-control" name="id_peminjaman" placeholder="Masukkan ID peminjaman">
-  </div>
+  
+    
   <div class="form-group">
                 <label>Nama User</label>
                <select name="nama_user" class="form-control">
@@ -329,9 +327,9 @@ if (isset($_POST["ok"])){
                 <label>ID Barang</label>
                <select name="id_barang" class="form-control">
                 <?php
-                $t_barang = mysqli_query($koneksi, "select id_barang, id_barang from barang");
+                $t_barang = mysqli_query($koneksi, "select * from barang");
                 foreach ($t_barang as $barang){
-                  echo "<option value=$barang[id_barang]>$barang[id_barang]</option>";
+                  echo "<option value=$barang[id_barang]>$barang[id_barang] -- $barang[nama_barang]</option>";
                 }
                 ?>
                </select>
