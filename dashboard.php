@@ -1,9 +1,13 @@
 <?php
 session_start();
 if (!isset($_SESSION["username"])) {
-  header("location:login.php");
-} else{
+  header("location: login.php");
+  exit(); // Penting untuk menghentikan eksekusi skrip setelah mengarahkan pengguna
+} else {
+  // Konten halaman dashboard di sini
+  // ...
 ?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -94,9 +98,9 @@ if (!isset($_SESSION["username"])) {
                   <li>
                     <a href="#">
                       <div class="pull-left">
-                        <img src="dist/img/user4-128x128.jpg" class="img-circle" alt="User Image">
-                      </div>
+                        </div>
                       <h4>
+                        <img src="dist/img/user4-128x128.jpg" class="img-circle" alt="User Image">
                         Developers
                         <small><i class="fa fa-clock-o"></i> Today</small>
                       </h4>
@@ -161,7 +165,9 @@ if (!isset($_SESSION["username"])) {
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <img src="dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
-              <span class="hidden-xs">Alexander Pierce</span>
+              <span class="hidden-xs">
+              <?php echo $_SESSION['username']; ?>
+              </span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
@@ -169,8 +175,7 @@ if (!isset($_SESSION["username"])) {
                 <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
 
                 <p>
-                  Alexander Pierce - Web Developer
-                  <small>Member since Nov. 2012</small>
+                <?php echo $_SESSION['username']; ?>
                 </p>
               </li>
               <!-- Menu Body -->
@@ -356,12 +361,11 @@ if (!isset($_SESSION["username"])) {
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
-  <footer class="main-footer">
-    <b>Version</b> 2.4.18
-    </div>
-    <strong>Copyright &copy; 2014-2019 <a href="https://adminlte.io">AdminLTE</a>.</strong> All rights
-    reserved.
+  <center><footer class="main-footer">
+    </div>Copyright &copy; 2023-2024 
+    <strong>Consina Outdoor.</strong> 
   </footer>
+  </center>
     <div class="pull-right hidden-xs">
 
   <!-- Control Sidebar -->

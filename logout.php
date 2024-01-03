@@ -3,6 +3,7 @@ session_start();
 
 // Hapus semua variabel sesi
 $_SESSION = array();
+error_log("Variabel sesi dihapus.");
 
 // Hapus cookie sesi jika ada
 if (ini_get("session.use_cookies")) {
@@ -11,12 +12,12 @@ if (ini_get("session.use_cookies")) {
         $params["path"], $params["domain"],
         $params["secure"], $params["httponly"]
     );
+    error_log("Cookie sesi dihapus.");
 }
 
 // Hancurkan sesi
 session_destroy();
-
-// Alihkan pengguna ke halaman login atau halaman lain yang sesuai
+error_log("Sesi dihancurkan.");
 header("location: login.php");
 exit();
 ?>

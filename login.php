@@ -16,15 +16,23 @@ if (isset($_POST["submit"])) {
         // Verifikasi password
         if (password_verify($password, $user['password'])) {
             // Login berhasil
-            $_SESSION["username"] = $username;
+            // Simpan informasi pengguna dalam sesi
+            $_SESSION["userData"] = array(
+                "username" => $username,
+                "email" => $user['email'],
+                "gambar" => $user['gambar']
+            );
+
             header('location:dashboard.php');
             exit();
         } else {
             // Password salah
+            error_log("Password salah");
             echo "<div class='alert'>Username atau Password salah!</div>";
         }
     } else {
         // Username tidak ditemukan
+        error_log("Username tidak ditemukan");
         echo "<div class='alert'>Username atau Password salah!</div>";
     }
 
@@ -36,9 +44,9 @@ if (isset($_POST["submit"])) {
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <title>Consina Login</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Consina Login</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -54,7 +62,7 @@ if (isset($_POST["submit"])) {
         .container {
             text-align: center;
             background-color: #fff;
-            padding: 20px 100px;
+            padding: 50px 100px;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
