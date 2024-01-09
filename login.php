@@ -3,8 +3,8 @@ session_start();
 include "koneksi.php"; 
 
 if (isset($_POST["submit"])) {
-    $username = $_POST["username"];
-    $password = $_POST["password"];
+    $username = mysqli_real_escape_string($koneksi, $_POST["username"]);
+    $password = mysqli_real_escape_string($koneksi, $_POST["password"]);
 
     $login = mysqli_prepare($koneksi, "SELECT * FROM user WHERE username=?");
     mysqli_stmt_bind_param($login, "s", $username);
@@ -18,13 +18,10 @@ if (isset($_POST["submit"])) {
             // Login berhasil
             // Simpan informasi pengguna dalam sesi
             $_SESSION["userData"] = array(
-                "username" => $username,
-                "email" => $user['email'],
-                "gambar" => $user['gambar']
+                "username" => $username
             );
 
             header('location:dashboard.php');
-            exit();
         } else {
             // Password salah
             error_log("Password salah");
@@ -39,6 +36,7 @@ if (isset($_POST["submit"])) {
     mysqli_stmt_close($login);
 }
 ?>
+
 
 
 <!DOCTYPE html>
