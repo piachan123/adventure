@@ -212,18 +212,8 @@ if (!isset($_SESSION["username"])) {
           <h4>Consina Outdoor</h4>
         </div>
       </div>
-      <!-- search form -->
-      <form action="#" method="get" class="sidebar-form">
-        <div class="input-group">
-          <input type="text" name="q" class="form-control" placeholder="Search...">
-          <span class="input-group-btn">
-                <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
-                </button>
-              </span>
-        </div>
-      </form>
-      <!-- /.search form -->
-      <!-- sidebar menu: : style can be found in sidebar.less -->
+      
+  <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu" data-widget="tree">
         <li class="header">MENU</li>
         <li class="active"><a href="#"><i class="fa fa-link"></i> <span> Dashboard</span></a></li>
@@ -268,6 +258,48 @@ if (!isset($_SESSION["username"])) {
       <h1>
         Dashboard
       </h1>
+      <?php
+// Menggunakan include untuk menyertakan file koneksi.php
+include "koneksi.php";
+
+// Mengecek apakah variabel pencarian (q) telah diset dan tidak kosong
+if (isset($_GET['q']) && !empty($_GET['q'])) {
+    $search_query = $_GET['q'];
+
+    // Menyiapkan pernyataan SQL untuk pencarian data barang berdasarkan nama atau atribut lainnya
+    $sql = "SELECT * FROM barang WHERE nama_barang LIKE '%$search_query%' OR harga LIKE '%$search_query%'";
+    
+    // Menjalankan pernyataan SQL
+    $result = $koneksi->query($sql);
+
+    // Menampilkan hasil pencarian
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            // Tampilkan informasi barang, sesuai kebutuhan
+            echo "Nama Barang: " . $row["nama_barang"] . "<br>";
+            echo "Jumlah: " . $row["jumlah"] . "<br>";
+            echo "Harga: " . $row["harga"] . "<br><br>";
+        }
+    } else {
+        echo "Tidak ada hasil pencarian.";
+    }
+    
+    // Menutup koneksi
+}
+?>
+
+      <!-- search form -->
+      <form action="#" method="get" class="sidebar-form">
+        <div class="input-group">
+          <input type="text" name="q" class="form-control" placeholder="Search...">
+          <span class="input-group-btn">
+                <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
+                </button>
+              </span>
+        </div>
+      </form>
+      <!-- /.search form -->
+  
     </section>
 
     <section class="content">
@@ -285,14 +317,31 @@ if (!isset($_SESSION["username"])) {
         <div style="font-size: 20px; font-weight: bold; margin-top: 20px;">Produk Kami</div>
       </div>
       <div style="display: flex; justify-content: space-between;">
+      <?php
+include "koneksi.php";
+$tampil = mysqli_query($koneksi, "select * from barang");
+
+// Memeriksa apakah ada data
+if (mysqli_num_rows($tampil) > 0) {
+    foreach ($tampil as $row) {
+        // Menampilkan data dalam format card
+?>
+
         <!-- Card 1 -->
         <div style="border: 1px solid #ddd; border-radius: 4px; padding: 20px; width: 30%; margin-top: 20px; text-align: center; position: relative; background-color: #fffefc; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
-          <h4 style="font-weight: bold;">Tenda</h4>
+          <h4 style="font-weight: bold;"><?php echo $row["nama_barang"]; ?></h4>
           <img src="dist/img/kap2.png" alt="Produk 1" style="width: 50%; height: auto; display: block; margin: 0 auto;">
-          <p>Tenda kami dirancang untuk menangani berbagai kondisi cuaca dan medan. Dibuat dari bahan tahan air yang kuat dan struktur kokoh, tenda ini akan memberikan perlindungan yang andal saat hujan atau angin kencang.</p>
-          <p>Tersedia mulai dari kapasitas 2 orang hingga 8 orang.</p>
+          <p>Deskripsi : <?php echo $row["deskripsi"]; ?></</p>
+          <p>harga : <?php echo $row["harga"]; ?></p>
         <a href="#" class="small-box-footer">Pesan sekarang <i class="fa fa-arrow-circle-right"></i></a>
         </div>
+        <?php
+    }
+} else {
+    echo "Tidak ada data.";
+}
+?>
+
         
         <!-- Card 2 -->
         <div style="border: 1px solid #ddd; border-radius: 4px; padding: 20px; width: 30%; margin-top: 20px; text-align: center; position: relative; background-color: #fffefc; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
